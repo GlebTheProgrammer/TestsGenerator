@@ -29,7 +29,7 @@ namespace TestsGeneratorDll.Includes
         }
 
 
-
+        //  MethodInfo[] methods = type.GetMethods( BindingFlags.Public);
 
 
         private void GetTestMethodsFromASingleAssembly(object assemblyObj)
@@ -37,18 +37,18 @@ namespace TestsGeneratorDll.Includes
             var assembly = (Assembly)assemblyObj;
 
             Type[] types = assembly.GetExportedTypes();
+
             foreach (Type type in types)
             {
-                MethodInfo[] methods = type.GetMethods(
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+                MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.Instance);
                 foreach (MethodInfo method in methods)
                 {
-                    lock(syn)
+                    lock (syn)
                         methodInfos.Add(method);
                 }
             }
 
-            lock(syn)
+            lock (syn)
             {
                 numberOfTasksToComplete -= 1;
 
